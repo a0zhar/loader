@@ -1,7 +1,6 @@
 name: Run Makefile
 
 on:
-
   workflow_dispatch:
 
 jobs:
@@ -29,15 +28,9 @@ jobs:
       - name: Compile palera1nLoader
         run: make PLATFORM=iphoneos SCHEME=palera1nLoader package
 
-      - name: Upload artifact
-        uses: wangyucode/sftp-upload-action@v1.4.8
+      - name: Upload palera1nLoader.ipa artifact
+        uses: actions/upload-artifact@v4.3.0
         with:
-          host: ${{ secrets.STATIC_FTP_HOST }}
-          port: ${{ secrets.STATIC_FTP_PORT }}
-          username: static
-          password: ${{ secrets.STATIC_FTP_PASS }}
-          forceUpload: true
-          dryRun: false
-          localDir: 'packages/'
-          remoteDir: '/artifacts/loader/universal_lite'
-
+          name: palera1nLoader_ipa
+          path: ${{ github.workspace }}/packages/palera1nLoader.ipa
+          if-no-files-found: error
